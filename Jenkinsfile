@@ -2,7 +2,7 @@ pipeline {
     agent any
     stages {
         stage('BUILD') {
-            when { branch 'master' }
+            when { branch 'main' }
             steps {
                 sh 'mvn clean'
                 sh 'mvn compile'
