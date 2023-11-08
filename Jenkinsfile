@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Launching Containers') {
             steps {
-                sh 'docker compose up'
+                sh 'docker compose up nexus sonarqube'
             }
         }
         stage('Code Quality check') {
