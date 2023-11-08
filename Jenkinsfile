@@ -8,7 +8,7 @@ pipeline {
         }
         stage('2') {
             steps {
-                echo '\$params.DOCKERHUB_PWD'
+                echo params.DOCKERHUB_PWD
                 //sh 'docker login -u dhiaabdelli -p \$params.DOCKERHUB_PWD'
                 //sh 'docker push dhiaabdelli/achat:1.0.0'
             }
