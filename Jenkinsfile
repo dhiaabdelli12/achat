@@ -3,14 +3,13 @@ pipeline {
     stages {
         stage('1') {
             steps {
-                sh 'docker build -t dhiaabdelli/achat:1.0.0 .'
+                sh "docker build -t ${params.DOCKERHUB_REPO}/${params.TAG} ."
             }
         }
         stage('2') {
             steps {
-                echo "${params.DOCKERHUB_PWD}"
-                //sh 'docker login -u dhiaabdelli -p \$params.DOCKERHUB_PWD'
-                //sh 'docker push dhiaabdelli/achat:1.0.0'
+                sh "docker login -u dhiaabdelli -p ${params.DOCKERHUB_PWD}"
+                sh "docker push ${params.DOCKERHUB_REPO}/${params.TAG}"
             }
         }
     }
