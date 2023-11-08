@@ -1,9 +1,6 @@
 version: "3.8"
 
 
-networks:
-  achat-network:
-
 services:
   mysqldb:
     image: mysql:5.7
@@ -15,8 +12,7 @@ services:
       - 3306:3306
     volumes:
       - db:/var/lib/mysql
-    networks:
-      - achat-network
+      
   app-achat:
     depends_on:
       - mysqldb
@@ -33,20 +29,14 @@ services:
         "spring.jpa.properties.hibernate.dialect":"org.hibernate.dialect.MySQL5InnoDBDialect"}'
     stdin_open: true
     tty: true
-    networks:
-      - achat-network
   sonarqube:
     image: sonarqube
     ports:
     - 9000:9000
-    networks:
-      - achat-network
   nexus:
     image: sonatype/nexus3
     ports:
     - 8082:8082
-    networks:
-      - achat-network
 volumes:
   db:
 
