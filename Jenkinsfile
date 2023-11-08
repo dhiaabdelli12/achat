@@ -1,15 +1,22 @@
 pipeline {
     agent any
     stages {
-        stage('Code Quality check'){
-            sh "mvn sonar:sonar -Dsonar.login=${params.SONAR_LOGIN}"
+        stage('Code Quality check') {
+            steps {
+                sh "mvn sonar:sonar -Dsonar.login=${params.SONAR_LOGIN}"
+            }
         }
-        stage('Launching Containers'){
-            sh "docker compose up"
+        stage('Launching Containers') {
+            steps {
+                sh 'docker compose up'
+            }
         }
-        stage('Building'){
-            sh 'mvn clean'
-            sh 'mvn compile'
+        stage('Building') {
+            steps {
+
+                sh 'mvn clean'
+                sh 'mvn compile'
+            }
         }
         stage('Building Docker Image') {
             steps {
@@ -24,4 +31,3 @@ pipeline {
         }
     }
 }
-
