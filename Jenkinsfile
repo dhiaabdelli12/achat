@@ -8,7 +8,7 @@ pipeline {
         }
         stage('Code Quality check') {
             steps {
-                sh "mvn sonar:sonar -Dsonar.login=${params.SONAR_LOGIN}"
+                sh "mvn sonar:sonar -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=${params.SONAR_LOGIN}"
             }
         }
         stage('Building') {
