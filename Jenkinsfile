@@ -4,12 +4,12 @@ pipeline {
         stage('Launching Containers') {
             steps {
                 sh 'docker compose up -d nexus sonarqube prometheus grafana'
+                sleep 15
             }
         }
         stage('Code Quality check') {
             steps {
                 sh "mvn sonar:sonar -Dsonar.login=${params.SONAR_LOGIN} -Dsonar.password=${SONAR_PWD}"
-                dependsOn 'Launching Containers'
             }
         }
         stage('Building') {
@@ -35,11 +35,11 @@ pipeline {
             }
         }
     }
-    post {
+    /*post {
         always{
             script{
                 //sh 'docker compose down'
             }
         }
-    }
+    }*/
 }
