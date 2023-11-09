@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Launching Containers') {
             steps {
-                sh 'docker compose up -d nexus sonarqube'
+                sh 'docker compose up -d nexus sonarqube prometheus grafana'
             }
         }
         stage('Code Quality check') {
@@ -17,6 +17,11 @@ pipeline {
                 sh 'mvn compile'
             }
         }
+        stage('MAVEN DEPLOY') {
+            steps {
+                sh 'mvn deploy'
+            }
+        }
         stage('Building Docker Image') {
             steps {
                 sh "docker build -t ${params.DOCKERHUB_REPO}/${params.TAG} ."
@@ -24,7 +29,7 @@ pipeline {
         }
         stage('Pushing Docker Image') {
             steps {
-                sh "docker login -u dhiaabdelli -p ${params.DOCKERHUB_PWD}"
+                sh "docker login -u ${params.DOCKERHUB_REPO} -p ${params.DOCKERHUB_PWD}"
                 sh "docker push ${params.DOCKERHUB_REPO}/${params.TAG}"
             }
         }
