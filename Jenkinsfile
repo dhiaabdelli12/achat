@@ -9,6 +9,7 @@ pipeline {
         stage('Code Quality check') {
             steps {
                 sh "mvn sonar:sonar -Dsonar.login=${params.SONAR_LOGIN} -Dsonar.password=${SONAR_PWD}"
+                dependsOn 'Launching Containers'
             }
         }
         stage('Building') {
@@ -37,7 +38,7 @@ pipeline {
     post {
         always{
             script{
-                sh 'docker compose down'
+                //sh 'docker compose down'
             }
         }
     }

@@ -31,8 +31,6 @@ services:
     image: sonarqube
     ports:
     - 9000:9000
-    networks:
-    - achat_network
   nexus:
     image: sonatype/nexus3
     ports:
