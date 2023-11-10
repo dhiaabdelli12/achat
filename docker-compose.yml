@@ -6,8 +6,9 @@ services:
     ports:
       - 8080:8080
     container_name: jenkins
-    volumes:
     user: root
+    volumes:
+      - jenkins_data:/var/jenkins_home
     environment:
       - JAVA_HOME=/usr/lib/jvm/default-java
       - JRE_HOME=/usr/lib/jvm/default-java
@@ -58,7 +59,6 @@ services:
     networks:
       - achat_network
 volumes:
-  jenkins_data:
   db:
 
 
