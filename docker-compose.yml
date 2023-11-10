@@ -8,8 +8,12 @@ services:
     container_name: jenkins
     volumes:
       - jenkins_data:/var/jenkins_home
-      - ./Jenkinsfile:/var/jenkins_home/Jenkinsfile
     user: root
+    environment:
+      - JAVA_HOME=/usr/lib/jvm/default-java
+      - JRE_HOME=/usr/lib/jvm/default-java
+      - M2_HOME=/usr/share/maven
+    command: bash -c 'apt-get update && apt-get install -y maven --fix-missing && jenkins.sh'
   mysqldb:
     image: mysql:5.7
     restart: unless-stopped
