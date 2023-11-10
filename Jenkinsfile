@@ -3,6 +3,8 @@ pipeline {
 
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dhiaabdelli-dockerhub')
+        DOCKERHUB_IMAGE_NAME = 'dhiaabdelli/achat'
+        DOCKERHUB_IMAGE_TAG = '1.0.0'
     }
 
     stages {
@@ -19,22 +21,26 @@ pipeline {
         }
         /*stage('MAVEN DEPLOY') {
             steps {
-                //sh 'mvn deploy'
+            //sh 'mvn deploy'
             }
         }*/
         stage('Building and pushing docker image') {
             steps {
-                    sh 'docker build -t dhiaabdelli/achat:1.0.0 .'
-                    sh 'docker push dhiaabdelli/achat:1.0.0'
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'dhiaabdelli-dockerhub') {
+                        // Push the Docker image to Docker Hub
+                        dockerImage.push("${DOCKER_IMAGE_TAG}")
+                    }
                 }
             }
         }
     }
+}
     post {
         always {
             script {
                 sh 'docker compose down'
             }
         }
-}
+    }
 
