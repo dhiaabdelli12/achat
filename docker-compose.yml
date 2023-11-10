@@ -13,7 +13,7 @@ services:
       - JAVA_HOME=/usr/lib/jvm/default-java
       - JRE_HOME=/usr/lib/jvm/default-java
       - M2_HOME=/usr/share/maven
-    #command: bash -c 'apt-get update && apt-get install -y maven --fix-missing && jenkins.sh'
+    command: bash -c 'apt-get update && apt-get install -y maven --fix-missing && jenkins.sh'
   mysqldb:
     image: mysql:5.7
     restart: unless-stopped
