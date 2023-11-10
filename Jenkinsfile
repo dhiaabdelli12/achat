@@ -1,12 +1,13 @@
 pipeline {
     agent any
+
+    environment {
+        DOCKER_REGISTRY = ${ params.DOCKERHUB_REPO }
+        DOCKER_IMAGE_NAME = 'achatimage'
+        DOCKER_IMAGE_TAG = 'latest'
+    }
+
     stages {
-        stage('Launching Containers') {
-            steps {
-                sh 'docker compose up -d nexus sonarqube prometheus grafana'
-                sleep 15
-            }
-        }
         stage('Code Quality check') {
             steps {
                 sh "mvn sonar:sonar -Dsonar.login=${params.SONAR_LOGIN} -Dsonar.password=${SONAR_PWD}"
@@ -23,22 +24,21 @@ pipeline {
                 sh 'mvn deploy'
             }
         }
-        stage('Building Docker Image') {
+        stage('Building and pushing docker image') {
             steps {
-                sh "docker build -t ${params.DOCKERHUB_REPO}/${params.TAG} ."
-            }
-        }
-        stage('Pushing Docker Image') {
-            steps {
-                sh "docker login -u ${params.DOCKERHUB_REPO} -p ${params.DOCKERHUB_PWD}"
-                sh "docker push ${params.DOCKERHUB_REPO}/${params.TAG}"
+                script {
+                    docker.withRegistry("https://${DOCKER_REGISTRY}", '') {
+                        def customImage = docker.build("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}")
+                        customImage.push()
+                    }
+                }
             }
         }
     }
     /*post {
         always{
             script{
-                //sh 'docker compose down'
+            //sh 'docker compose down'
             }
         }
     }*/
