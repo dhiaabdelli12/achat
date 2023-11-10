@@ -21,7 +21,7 @@ pipeline {
         }
         stage('MAVEN DEPLOY') {
             steps {
-                sh 'mvn deploy'
+                //sh 'mvn deploy'
             }
         }
         stage('Building and pushing docker image') {

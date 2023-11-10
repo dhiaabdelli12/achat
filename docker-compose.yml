@@ -7,14 +7,12 @@ services:
       - 8080:8080
     container_name: jenkins
     volumes:
-      - ./jenkins_home:/var/jenkins_home
-      - ./jenkins_plugins:/var/jenkins_home/plugins
     user: root
     environment:
       - JAVA_HOME=/usr/lib/jvm/default-java
       - JRE_HOME=/usr/lib/jvm/default-java
       - M2_HOME=/usr/share/maven
-    command: bash -c 'apt-get update && apt-get install -y maven --fix-missing && jenkins.sh'
+    #command: bash -c 'apt-get update && apt-get install -y maven --fix-missing && jenkins.sh'
   mysqldb:
     image: mysql:5.7
     restart: unless-stopped
