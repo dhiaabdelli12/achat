@@ -2,9 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_REGISTRY = "${ params.DOCKERHUB_REPO }"
-        DOCKER_IMAGE_NAME = 'achatimage'
-        DOCKER_IMAGE_TAG = 'latest'
+        DOCKERHUB_CREDENTIALS = credentials('dhiaabdelli-dockerhub')
     }
 
     stages {
@@ -27,6 +25,7 @@ pipeline {
         stage('Building and pushing docker image') {
             steps {
                     sh 'docker build -t dhiaabdelli/achat:1.0.0 .'
+                    sh 'docker push dhiaabdelli/achat:1.0.0'
                 }
             }
         }
