@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_REGISTRY = ${ params.DOCKERHUB_REPO }
+        DOCKER_REGISTRY = "${ params.DOCKERHUB_REPO }"
         DOCKER_IMAGE_NAME = 'achatimage'
         DOCKER_IMAGE_TAG = 'latest'
     }
