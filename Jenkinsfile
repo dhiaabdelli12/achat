@@ -11,7 +11,6 @@ pipeline {
         stage('Code Quality check') {
             steps {
                 sh "mvn sonar:sonar -Dsonar.login=${params.SONAR_LOGIN} -Dsonar.password=${SONAR_PWD} -Dsonar.host.url=http://sonarqube:9000"
-"
             }
         }
         stage('Building') {
@@ -36,11 +35,11 @@ pipeline {
             }
         }
     }
-    /*post {
+    post {
         always{
             script{
-            //sh 'docker compose down'
+            sh 'docker compose down'
             }
         }
-    }*/
+    }
 }

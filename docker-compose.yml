@@ -7,7 +7,8 @@ services:
       - 8080:8080
     container_name: jenkins
     volumes:
-      - jenkins_data:/var/jenkins_home
+      - ./jenkins_home:/var/jenkins_home
+      - ./jenkins_plugins:/var/jenkins_home/plugins
     user: root
     environment:
       - JAVA_HOME=/usr/lib/jvm/default-java
