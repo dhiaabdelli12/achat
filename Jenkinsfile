@@ -19,11 +19,11 @@ pipeline {
                 sh "mvn sonar:sonar -Dsonar.login=${params.SONAR_LOGIN} -Dsonar.password=${SONAR_PWD} -Dsonar.host.url=http://sonarqube:9000"
             }
         }
-        stage('MAVEN DEPLOY') {
+        /*stage('MAVEN DEPLOY') {
             steps {
                 //sh 'mvn deploy'
             }
-        }
+        }*/
         stage('Building and pushing docker image') {
             steps {
                     sh 'docker build -t dhiaabdelli/achat:1.0.0 .'
