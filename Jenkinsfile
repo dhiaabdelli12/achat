@@ -26,11 +26,7 @@ pipeline {
         }
         stage('Building and pushing docker image') {
             steps {
-                script {
-                    docker.withRegistry("https://${DOCKER_REGISTRY}", '') {
-                        def customImage = docker.build("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}")
-                        customImage.push()
-                    }
+                    sh 'docker build -t dhiaabdelli/achat:1.0.0 .'
                 }
             }
         }

@@ -59,6 +59,7 @@ services:
     networks:
       - achat_network
 volumes:
+  jenkins_data:
   db:
 
 
