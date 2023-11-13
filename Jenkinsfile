@@ -19,7 +19,7 @@ pipeline {
                 sh "docker login -u ${params.DOCKERHUB_USERNAME} -p ${params.DOCKERHUB_PWD}"
             }
         }
-        stage('MAVEN DEPLOY') {
+        stage('NEXUS DEPLOY') {
             steps {
                 sh 'mvn deploy'
             }
