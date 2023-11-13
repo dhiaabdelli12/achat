@@ -2,6 +2,8 @@ version: "3.8"
 
 services:
   jenkins:
+    networks:
+      - achat_network
     build:
       context: .
       dockerfile: Dockerfile.jenkins
@@ -42,6 +44,8 @@ services:
     ports:
       - 9000:9000
   nexus:
+    networks:
+      - achat_network
     image: sonatype/nexus3
     ports:
       - 8082:8082
