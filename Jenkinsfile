@@ -36,11 +36,11 @@ pipeline {
         }
     }
 }
-    post {
+    /*post {
         always {
             script {
                 sh 'docker compose down'
             }
         }
-    }
+    }*/
 
