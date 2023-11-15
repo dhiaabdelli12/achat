@@ -17,6 +17,7 @@ pipeline {
             steps {
                 sh "docker build -t ${params.DOCKERHUB_USERNAME}/${params.IMG_NAME}:${IMG_TAG} /usr/app"
                 sh "docker login -u ${params.DOCKERHUB_USERNAME} -p ${params.DOCKERHUB_PWD}"
+                sh "docker push ${params.DOCKERHUB_USERNAME}/${params.IMG_NAME}:${IMG_TAG}"
             }
         }
         stage('NEXUS DEPLOY') {
