@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Launching Sonarqube and nexus') {
             steps {
-                sh 'docker compose up -d sonarqube'
+                sh 'docker compose up -d sonarqube nexus'
                 sleep(50)
             }
         }
@@ -18,6 +18,7 @@ pipeline {
         stage('Code Quality check') {
             steps {
                 sh "mvn sonar:sonar -Dsonar.login=${params.SONAR_LOGIN} -Dsonar.password=${SONAR_PWD} -Dsonar.host.url=http://localhost:9000"
+                sh 'docker compose down sonarqube'
             }
         }
         stage('Building and pushing docker image') {
@@ -25,6 +26,11 @@ pipeline {
                 sh "docker build -t ${params.DOCKERHUB_USERNAME}/${params.IMG_NAME}:${IMG_TAG} ."
                 sh "docker login -u ${params.DOCKERHUB_USERNAME} -p ${params.DOCKERHUB_PWD}"
                 sh "docker push ${params.DOCKERHUB_USERNAME}/${params.IMG_NAME}:${IMG_TAG}"
+            }
+        }
+        stage("Launching Nexus"){
+            steps{
+                sh 'docker compose up -d nexus'
             }
         }
         stage('NEXUS DEPLOY') {
