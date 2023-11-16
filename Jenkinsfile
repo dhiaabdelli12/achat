@@ -1,7 +1,7 @@
 pipeline {
     agent any
     stages {
-        stage('Launching Sonarqube') {
+        stage('Launching Sonarqube and nexus') {
             steps {
                 sh 'docker compose up -d sonarqube'
             }
