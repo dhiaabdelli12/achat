@@ -1,18 +1,18 @@
 pipeline {
     agent any
     stages {
-        stage('Building') {
+        stage('Building Project') {
             steps {
                 sh 'mvn clean'
                 sh 'mvn compile'
+                sh 'mvn package'
             }
         }
         stage('Code Quality check') {
             steps {
-                sh "mvn sonar:sonar -Dsonar.login=${params.SONAR_LOGIN} -Dsonar.password=${SONAR_PWD} -Dsonar.host.url=http://sonarqube:9000"
+                sh "mvn sonar:sonar -Dsonar.login=${params.SONAR_LOGIN} -Dsonar.password=${SONAR_PWD} -Dsonar.host.url=http://localhost:9000"
             }
         }
-
         stage('Building and pushing docker image') {
             steps {
                 sh "docker build -t ${params.DOCKERHUB_USERNAME}/${params.IMG_NAME}:${IMG_TAG} /usr/app"
@@ -25,7 +25,11 @@ pipeline {
                 sh 'mvn deploy'
             }
         }
+        stage('Launching Project') {
+            sh 'docker compose up -d app-achat'
+        }
+        stage('Launching Monitoring services') {
+            sh 'docker compose up -d prometheus grafana'
+        }
     }
 }
-    
-

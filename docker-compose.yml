@@ -1,26 +1,8 @@
 version: "3.8"
 
 services:
-  jenkins:
-    networks:
-      - achat_network
-    build:
-      context: .
-      dockerfile: Dockerfile.jenkins
-    ports:
-      - 8080:8080
-    volumes:
-      - /opt/jenkins_data:/var/jenkins_home
-      - /var/run/docker.sock:/var/run/docker.sock
-    user: root
-    container_name: jenkins
-    environment:
-      - JAVA_HOME=/usr/lib/jvm/default-java
-      - JRE_HOME=/usr/lib/jvm/default-java
-      - M2_HOME=/usr/share/maven
   mysqldb:
     image: mysql:5.7
-    restart: unless-stopped
     environment:
       - MYSQL_ROOT_PASSWORD=
       - MYSQL_DATABASE= achatdb
@@ -32,7 +14,6 @@ services:
     depends_on:
       - mysqldb
     image: dhiaabdelli/achat:1.0.0
-    restart: on-failure
     ports:
       - 8089:8089
     environment:
