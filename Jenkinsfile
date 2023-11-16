@@ -4,7 +4,7 @@ pipeline {
         stage('Launching Sonarqube and nexus') {
             steps {
                 sh 'docker compose up -d sonarqube nexus'
-                waitForContainers()
+                sleep(10)
             }
         }
         stage('Building Project') {
@@ -53,32 +53,3 @@ pipeline {
 }
 
 
-def waitForContainers() {
-    // Maximum time to wait for containers to become healthy (adjust as needed)
-    def maxWaitTime = 300 // seconds
-    def startTime = currentBuild.startTimeInMillis
-
-    echo 'Waiting for containers to become healthy...'
-
-    // Loop until all containers are healthy or timeout is reached
-    timeout(time: maxWaitTime, unit: 'SECONDS') {
-        boolean allContainersHealthy = false
-
-        while (!allContainersHealthy) {
-            def containerStatus = sh(script: 'docker-compose ps -q | xargs docker inspect --format \'{{.State.Health.Status}}\'', returnStatus: true).trim()
-
-            // Check if all containers are healthy
-            allContainersHealthy = containerStatus.split('\n').every { it == 'healthy' }
-
-            if (!allContainersHealthy) {
-                // Sleep for a short interval before checking again
-                sleep(10)
-            }
-        }
-
-        echo 'All containers are healthy!'
-    }
-
-    def elapsedTime = (currentBuild.startTimeInMillis - startTime) / 1000
-    echo "Containers took ${elapsedTime} seconds to become healthy."
-}
