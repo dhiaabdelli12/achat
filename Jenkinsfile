@@ -21,7 +21,7 @@ pipeline {
         }
         stage('Building and pushing docker image') {
             steps {
-                sh "docker build -t ${params.DOCKERHUB_USERNAME}/${params.IMG_NAME}:${IMG_TAG} /usr/app"
+                sh "docker build -t ${params.DOCKERHUB_USERNAME}/${params.IMG_NAME}:${IMG_TAG} ."
                 sh "docker login -u ${params.DOCKERHUB_USERNAME} -p ${params.DOCKERHUB_PWD}"
                 sh "docker push ${params.DOCKERHUB_USERNAME}/${params.IMG_NAME}:${IMG_TAG}"
             }
@@ -39,6 +39,13 @@ pipeline {
         stage('Launching Monitoring services') {
             steps {
                 sh 'docker compose up -d prometheus grafana'
+            }
+        }
+        post {
+            failure {
+                script {
+                    sh 'docker compose down'
+                }
             }
         }
     }
