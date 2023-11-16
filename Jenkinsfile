@@ -31,6 +31,7 @@ pipeline {
         stage("Launching Nexus"){
             steps{
                 sh 'docker compose up -d nexus'
+                sleep(60)
             }
         }
         stage('NEXUS DEPLOY') {
