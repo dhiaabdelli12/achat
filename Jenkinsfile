@@ -41,12 +41,12 @@ pipeline {
                 sh 'docker compose up -d prometheus grafana'
             }
         }
-        post {
+    }
+    post {
             failure {
                 script {
                     sh 'docker compose down'
                 }
             }
-        }
     }
 }
