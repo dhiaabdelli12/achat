@@ -8,6 +8,11 @@ pipeline {
                 sh 'mvn package'
             }
         }
+        stage('Launching Sonarqube') {
+            steps {
+                sh 'docker compose up -d sonarqube'
+            }
+        }
         stage('Code Quality check') {
             steps {
                 sh "mvn sonar:sonar -Dsonar.login=${params.SONAR_LOGIN} -Dsonar.password=${SONAR_PWD} -Dsonar.host.url=http://localhost:9000"
