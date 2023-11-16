@@ -26,10 +26,14 @@ pipeline {
             }
         }
         stage('Launching Project') {
-            sh 'docker compose up -d app-achat'
+            steps {
+                sh 'docker compose up -d app-achat'
+            }
         }
         stage('Launching Monitoring services') {
-            sh 'docker compose up -d prometheus grafana'
+            steps {
+                sh 'docker compose up -d prometheus grafana'
+            }
         }
     }
 }
