@@ -3,8 +3,8 @@ pipeline {
     stages {
         stage('Launching Sonarqube and nexus') {
             steps {
-                sh 'docker compose up -d sonarqube nexus'
-                sleep(50)
+                sh 'docker compose up -d sonarqube'
+                sleep(60)
             }
         }
         stage('Building Project') {
