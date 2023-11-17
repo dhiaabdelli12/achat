@@ -28,12 +28,7 @@ pipeline {
                 sh "docker push ${params.DOCKERHUB_USERNAME}/${params.IMG_NAME}:${IMG_TAG}"
             }
         }
-        stage("Launching Nexus"){
-            steps{
-                sh 'docker compose up -d nexus'
-                sleep(60)
-            }
-        }
+
         stage('NEXUS DEPLOY') {
             steps {
                 sh 'mvn deploy'
@@ -58,5 +53,3 @@ pipeline {
             }
     }
 }
-
-
